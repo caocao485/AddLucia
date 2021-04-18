@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile project(':processor')
+    annotationProcessor  project(':processor')
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'
+
+    implementation "com.squareup:javapoet:1.9.0"
+
+
+    annotationProcessor 'com.google.auto.service:auto-service-annotations:1.0-rc7'
+
+    implementation 'com.google.auto.service:auto-service:1.0-rc7'
+}
+
+test {
+    useJUnit()
+
+    maxHeapSize = '1G'
+}
+compileJava {
+    options.compilerArgs += '-Apolicy=GEN' //在目标库，而不是注解库加参数
+    options.compilerArgs += '-Averify'
+    options.compilerArgs += '-Adebug'
+}
